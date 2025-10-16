@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# 本地环境
+.nodeenv
+activate-dev.ps1
