@@ -153,6 +153,9 @@ importers:
       sass-embedded:
         specifier: ^1.92.1
         version: 1.93.2
+      sharp:
+        specifier: ^0.34.4
+        version: 0.34.4
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
@@ -2989,8 +2992,7 @@ snapshots:
 
   '@fontsource-variable/jetbrains-mono@5.2.8': {}
 
-  '@img/colour@1.0.0':
-    optional: true
+  '@img/colour@1.0.0': {}
 
   '@img/sharp-darwin-arm64@0.34.4':
     optionalDependencies:
@@ -5405,7 +5407,6 @@ snapshots:
       '@img/sharp-win32-arm64': 0.34.4
       '@img/sharp-win32-ia32': 0.34.4
       '@img/sharp-win32-x64': 0.34.4
-    optional: true
 
   shiki@3.13.0:
     dependencies:
