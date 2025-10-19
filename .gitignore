@@ -23,6 +23,8 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# ±¾µØ»·¾³
+# ï¿½ï¿½ï¿½Ø»ï¿½ï¿½ï¿½
 .nodeenv
 activate-dev.ps1
+.vercel
+dev.ps1
