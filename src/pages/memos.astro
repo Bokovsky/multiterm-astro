@@ -1,0 +1,15 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import { Content as MemosContent } from '~/content/memos/memos.md'
+import Tags from '~/components/Tags.astro'
+---
+
+<Layout title="Memos">
+  <div class="mb-5 xl:min-w-full 2xl:min-w-full prose">
+    <MemosContent />
+  </div>
+</Layout>
+
+<style>
+  .prose { margin: 0; text-align: left; }
+</style>

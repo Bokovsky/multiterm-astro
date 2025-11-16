@@ -31,7 +31,11 @@ const config: SiteConfig = {
       url: '/posts',
     },
     {
-      name: 'Sports Notes',
+      name: 'Memos',
+      url: '/memos',
+    },
+    {
+      name: 'Sports',
       url: 'https://sports.macondo.cc/',
     },
     {
