@@ -23,8 +23,9 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# ���ػ���
+# 自定义
 .nodeenv
 activate-dev.ps1
 .vercel
 dev.ps1
+c.ps1
