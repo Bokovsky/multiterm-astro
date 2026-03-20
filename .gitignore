@@ -28,4 +28,4 @@ pnpm-debug.log*
 activate-dev.ps1
 .vercel
 dev.ps1
-c.ps1
+AGENTS.md
