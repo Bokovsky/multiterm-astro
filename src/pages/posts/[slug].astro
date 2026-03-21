@@ -8,7 +8,6 @@ import { getCollection, render, type CollectionEntry } from 'astro:content'
 import PostAddendum from '~/components/PostAddendum.astro'
 import TableOfContents from '~/components/TableOfContents.astro'
 import { Image } from 'astro:assets'
-import GiscusLoader from '~/components/GiscusLoader.astro'
 import siteConfig from '~/site.config'
 import Tags from '~/components/Tags.astro'
 import PostInfo from '~/components/PostInfo.astro'
@@ -16,6 +15,7 @@ import ScrollUpButton from '~/components/ScrollUpButton.astro'
 import type { Collation } from '~/types'
 import ChevronsRight from '~/icons/chevrons-right.svg'
 import { getPostSequenceContext } from '~/utils'
+import Breadcrumb from '~/components/Breadcrumb.astro'
 
 export const getStaticPaths = (async () => {
   const posts = await getSortedPosts()
@@ -71,7 +71,16 @@ if (postData.tags && postData.tags.length > 0) {
   description={postData.description}
   author={postData.author}
   tags={postData.tags}
+  publishedDate={postData.published}
+  modifiedDate={postData.updated}
 >
+  <Breadcrumb
+    items={[
+      { name: 'Home', url: '/' },
+      { name: 'Archive', url: '/posts' },
+      { name: postData.title, url: `/posts/${post.id}`, current: true },
+    ]}
+  />
   <article class="max-w-full py-7.5" data-pagefind-body>
     {
       postData.coverImage && (
@@ -140,14 +149,6 @@ if (postData.tags && postData.tags.length > 0) {
         {next && <PostPreview post={next} />}
       </section>
     ) : null
-  }
-  {
-    siteConfig.giscus && (
-      <section>
-        <DividerText text="Comments" />
-        <GiscusLoader />
-      </section>
-    )
   }
   <ScrollUpButton />
 </Layout>

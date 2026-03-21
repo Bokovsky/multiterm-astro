@@ -3,8 +3,7 @@ import type { SiteConfig } from '~/types'
 const config: SiteConfig = {
   site: 'https://blog.macondo.cc',
   title: 'Macondo',
-  description:
-    '不定期更新的博客',
+  description: '不定期更新的博客',
   author: 'L',
   tags: ['macondo.cc', 'L', 'Blog', 'Astro', 'macondo'],
   socialCardAvatarImage: './src/content/avatar.jpg',
@@ -140,16 +139,9 @@ const config: SiteConfig = {
     // mastodon: '',
     // email: '',
     // linkedin: '',
-   // bluesky: '',
+    // bluesky: '',
     // twitter: '',
     // rss: true,
-  },
-  giscus: {
-    repo: '',
-    repoId: '',
-    category: '',
-    categoryId: '',
-    reactionsEnabled: false, 
   },
   characters: {
     owl: '/owl.webp',
