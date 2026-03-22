@@ -1,0 +1,44 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '~/layouts/Layout.astro'
+import MemoPreview from '~/components/MemoPreview.astro'
+import Pagination from '~/components/Pagination.astro'
+import TagFilter from '~/components/TagFilter.astro'
+import { getSortedMemos } from '~/utils'
+import type { CollectionEntry } from 'astro:content'
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const sortedMemos = await getSortedMemos()
+  return paginate(sortedMemos, { pageSize: 8 })
+}) satisfies GetStaticPaths
+
+const { page } = Astro.props
+const memos: CollectionEntry<'memos'>[] = page.data
+const currentTag = Astro.url.searchParams.get('tag') || undefined
+const allTags = [...new Set(memos.flatMap((m) => m.data.tags || []))].sort()
+const filteredMemos = currentTag
+  ? memos.filter((m) => m.data.tags?.includes(currentTag))
+  : memos
+const pageTitle = page.currentPage > 1 ? `Memos - Page ${page.currentPage}` : 'Memos'
+---
+
+<Layout
+  title={pageTitle}
+  description="Short thoughts, quick notes and ideas"
+  tags={allTags}
+>
+  <div class="mt-2 sm:mt-0">
+    <TagFilter tags={allTags} currentTag={currentTag} />
+    {filteredMemos.map((memo) => <MemoPreview memo={memo} />)}
+    <Pagination
+      prevLink={page.url.prev
+        ? `${page.url.prev}${currentTag ? `?tag=${currentTag}` : ''}`
+        : undefined}
+      prevText="Newer Memos"
+      nextLink={page.url.next
+        ? `${page.url.next}${currentTag ? `?tag=${currentTag}` : ''}`
+        : undefined}
+      nextText="Older Memos"
+    />
+  </div>
+</Layout>

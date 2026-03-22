@@ -224,6 +224,18 @@ export async function getSortedPosts() {
   return sortedPosts
 }
 
+export async function getSortedMemos() {
+  const allMemos = await getCollection('memos')
+  if (!allMemos || allMemos.length === 0) {
+    return []
+  }
+  const sortedMemos = allMemos.sort((a, b) => {
+    if (!a.data?.published || !b.data?.published) return 0
+    return a.data.published < b.data.published ? 1 : -1
+  })
+  return sortedMemos
+}
+
 abstract class PostsCollationGroup implements CollationGroup<'posts'> {
   title: string
   url: string

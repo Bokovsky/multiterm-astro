@@ -50,8 +50,18 @@ const addendumCollection = defineCollection({
     }),
 })
 
+const memosCollection = defineCollection({
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: './src/content/memos' }),
+  schema: z.object({
+    title: z.string().optional(),
+    published: z.coerce.date(),
+    tags: z.array(z.string()).optional().default([]),
+  }),
+})
+
 export const collections = {
   posts: postsCollection,
   home: homeCollection,
   addendum: addendumCollection,
+  memos: memosCollection,
 }

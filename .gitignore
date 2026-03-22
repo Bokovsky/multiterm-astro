@@ -26,6 +26,7 @@ pnpm-debug.log*
 # 自定义
 .nodeenv
 activate-dev.ps1
+templates/
 .vercel
 dev.ps1
 AGENTS.md

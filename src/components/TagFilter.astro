@@ -1,0 +1,39 @@
+---
+interface Props {
+  tags: string[]
+  currentTag?: string
+}
+
+const { tags, currentTag } = Astro.props
+---
+
+{
+  tags.length > 0 && (
+    <div class="flex flex-wrap gap-2 mb-6">
+      <a
+        href="/memos"
+        class:list={[
+          'rounded-2xl py-[3px] px-3.5 transition-colors border-1 text-sm',
+          !currentTag
+            ? 'bg-foreground/10 border-foreground/20'
+            : 'bg-foreground/1 border-foreground/16 hover:bg-foreground/5 hover:border-foreground/20',
+        ]}
+      >
+        All
+      </a>
+      {tags.map((tag) => (
+        <a
+          href={`/memos?tag=${encodeURIComponent(tag)}`}
+          class:list={[
+            'rounded-2xl py-[3px] px-3.5 transition-colors border-1 text-sm',
+            currentTag === tag
+              ? 'bg-foreground/10 border-foreground/20'
+              : 'bg-foreground/1 border-foreground/16 hover:bg-foreground/5 hover:border-foreground/20',
+          ]}
+        >
+          {tag}
+        </a>
+      ))}
+    </div>
+  )
+}

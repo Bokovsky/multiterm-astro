@@ -21,15 +21,19 @@ interface Props {
 
 const { title, description, tags, author, publishedDate, modifiedDate } = Astro.props
 const pageUrl = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '') // Remove trailing slash for consistency
-const pageType = Astro.url.pathname.startsWith('/posts') ? 'article' : 'website'
+const isArticlePath =
+  Astro.url.pathname.startsWith('/posts') || Astro.url.pathname.startsWith('/memos')
+const pageType = isArticlePath ? 'article' : 'website'
 const pageTitle = title ? `${title} - ${siteConfig.title}` : siteConfig.title
 const pageDescription = description || siteConfig.description
 const pageAuthor = author || siteConfig.author
 const pageImage =
   pageType === 'article'
-    ? Astro.url.origin +
-      Astro.url.pathname.replace(/\/posts\//, '/social-cards/') +
-      '.png'
+    ? Astro.url.pathname.startsWith('/posts')
+      ? Astro.url.origin +
+        Astro.url.pathname.replace(/\/posts\//, '/social-cards/') +
+        '.png'
+      : `${Astro.url.origin}/social-cards/__default.png`
     : `${Astro.url.origin}/social-cards/__default.png`
 const pageKeywords = [
   ...new Set(siteConfig.tags.concat(tags || []).map((word) => word.toLowerCase())),
@@ -57,15 +61,16 @@ const websiteSchema = {
 }
 
 let articleSchema = null
-if (pageType === 'article' && publishedDate) {
+if (pageType === 'article') {
   articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: title || '',
     description: pageDescription,
     url: pageUrl,
-    datePublished: publishedDate.toISOString(),
-    dateModified: modifiedDate?.toISOString() || publishedDate.toISOString(),
+    ...(publishedDate && { datePublished: publishedDate.toISOString() }),
+    ...(modifiedDate && { dateModified: modifiedDate.toISOString() }),
+    ...(publishedDate && !modifiedDate && { dateModified: publishedDate.toISOString() }),
     author: {
       '@type': 'Person',
       name: pageAuthor,

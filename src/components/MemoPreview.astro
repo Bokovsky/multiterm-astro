@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { render } from 'astro:content'
+import { dateString } from '~/utils'
+
+interface Props {
+  memo: CollectionEntry<'memos'>
+}
+
+const { memo } = Astro.props
+const { Content } = await render(memo)
+const title = memo.data.title || dateString(memo.data.published)
+const tags = memo.data.tags || []
+const formattedDate = dateString(memo.data.published)
+---
+
+<article class="w-full py-5 my-1 md:my-4 border-accent/10">
+  <h1 class="mb-3 text-2xl text-heading1 font-semibold">
+    # {formattedDate}
+  </h1>
+  {
+    tags.length > 0 && (
+      <div class="mb-4 mt-2">
+        <div class="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <a
+              href={`/memos?tag=${encodeURIComponent(tag)}`}
+              class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 hover:border-foreground/20 text-sm"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      </div>
+    )
+  }
+  <div class="prose">
+    <Content />
+  </div>
+</article>
