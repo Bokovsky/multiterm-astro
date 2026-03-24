@@ -15,9 +15,9 @@ const formattedDate = dateString(memo.data.published)
 ---
 
 <article class="w-full py-5 my-1 md:my-4 border-accent/10">
-  <h1 class="mb-3 text-2xl text-heading1 font-semibold">
-    # {formattedDate}
-  </h1>
+  <h2 class="mb-3 text-2xl text-heading1 font-semibold">
+    {formattedDate}
+  </h2>
   {
     tags.length > 0 && (
       <div class="mb-4 mt-2">
