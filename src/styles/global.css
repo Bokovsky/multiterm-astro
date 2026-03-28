@@ -1,3 +1,6 @@
+/* https://fonts.zeoseven.com/items/292/ - LXGW WenKai */
+@import url('https://fontsapi.zeoseven.com/292/main/result.css');
+
 @import 'tailwindcss';
 @import 'katex/dist/katex.css';
 
@@ -39,7 +42,7 @@
   --color-yellow: var(--theme-yellow);
   --color-magenta: var(--theme-magenta);
   --color-cyan: var(--theme-cyan);
-  --default-font-family: var(--theme-font), monospace;
+  --default-font-family: 'LXGW WenKai', var(--theme-font), monospace;
   --default-mono-font-family: var(--theme-font), monospace;
 }
 
