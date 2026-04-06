@@ -13,12 +13,9 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths
 
 const { page } = Astro.props
-const memos: CollectionEntry<'memos'>[] = page.data
-const currentTag = Astro.url.searchParams.get('tag') || undefined
-const allTags = [...new Set(memos.flatMap((m) => m.data.tags || []))].sort()
-const filteredMemos = currentTag
-  ? memos.filter((m) => m.data.tags?.includes(currentTag))
-  : memos
+const allMemos = await getSortedMemos()
+const allTags = [...new Set(allMemos.flatMap((m) => m.data.tags || []))].sort()
+const memos = page.data as CollectionEntry<'memos'>[]
 const pageTitle = page.currentPage > 1 ? `Memos - Page ${page.currentPage}` : 'Memos'
 ---
 
@@ -28,16 +25,12 @@ const pageTitle = page.currentPage > 1 ? `Memos - Page ${page.currentPage}` : 'M
   tags={allTags}
 >
   <div class="mt-2 sm:mt-0">
-    <TagFilter tags={allTags} currentTag={currentTag} />
-    {filteredMemos.map((memo) => <MemoPreview memo={memo} />)}
+    <TagFilter tags={allTags} />
+    {memos.map((memo) => <MemoPreview memo={memo} />)}
     <Pagination
-      prevLink={page.url.prev
-        ? `${page.url.prev}${currentTag ? `?tag=${currentTag}` : ''}`
-        : undefined}
+      prevLink={page.url.prev ? page.url.prev : undefined}
       prevText="Newer Memos"
-      nextLink={page.url.next
-        ? `${page.url.next}${currentTag ? `?tag=${currentTag}` : ''}`
-        : undefined}
+      nextLink={page.url.next ? page.url.next : undefined}
       nextText="Older Memos"
     />
   </div>

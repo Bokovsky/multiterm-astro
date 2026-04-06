@@ -5,6 +5,7 @@ interface Props {
 }
 
 const { tags, currentTag } = Astro.props
+const basePath = Astro.url.pathname.replace(/\/$/, '')
 ---
 
 {
@@ -23,7 +24,7 @@ const { tags, currentTag } = Astro.props
       </a>
       {tags.map((tag) => (
         <a
-          href={`/memos?tag=${encodeURIComponent(tag)}`}
+          href={`/memos/tags/${encodeURIComponent(tag)}`}
           class:list={[
             'rounded-2xl py-[3px] px-3.5 transition-colors border-1 text-sm',
             currentTag === tag

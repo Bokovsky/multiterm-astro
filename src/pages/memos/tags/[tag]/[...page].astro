@@ -1,0 +1,56 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '~/layouts/Layout.astro'
+import MemoPreview from '~/components/MemoPreview.astro'
+import TagFilter from '~/components/TagFilter.astro'
+import { getSortedMemos, MemosTagsGroup } from '~/utils'
+import type { CollectionEntry } from 'astro:content'
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const tagsGroup = await MemosTagsGroup.build()
+  const pages = tagsGroup.collations.flatMap((tag) => {
+    return paginate(tag.entries.reverse(), {
+      props: { tagTitle: tag.title },
+      params: { tag: tag.titleSlug },
+      pageSize: 8,
+    })
+  })
+  return pages
+}) satisfies GetStaticPaths
+
+const { page, tagTitle } = Astro.props
+const allMemos = await getSortedMemos()
+const allTags = [...new Set(allMemos.flatMap((m) => m.data.tags || []))].sort()
+const pageTitle = `Memos - ${tagTitle}` + (page.currentPage > 1 ? ` - Page ${page.currentPage}` : '')
+---
+
+<Layout
+  title={pageTitle}
+  description={`Memos tagged with ${tagTitle}`}
+  tags={allTags}
+>
+  <div class="mt-2 sm:mt-0">
+    <TagFilter tags={allTags} currentTag={tagTitle} />
+    {page.data.map((memo) => <MemoPreview memo={memo} />)}
+    {page.lastPage > 1 && (
+      <nav class="flex justify-between mt-8">
+        {page.url.prev && (
+          <a
+            href={page.url.prev}
+            class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 text-sm"
+          >
+            ← Newer Memos
+          </a>
+        )}
+        {page.url.next && (
+          <a
+            href={page.url.next}
+            class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 text-sm ml-auto"
+          >
+            Older Memos →
+          </a>
+        )}
+      </nav>
+    )}
+  </div>
+</Layout>

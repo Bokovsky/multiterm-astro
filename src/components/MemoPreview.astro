@@ -24,7 +24,7 @@ const formattedDate = dateString(memo.data.published)
         <div class="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <a
-              href={`/memos?tag=${encodeURIComponent(tag)}`}
+              href={`/memos/tags/${encodeURIComponent(tag)}`}
               class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 hover:border-foreground/20 text-sm"
             >
               {tag}

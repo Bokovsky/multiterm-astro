@@ -332,6 +332,81 @@ export class TagsGroup extends PostsCollationGroup {
   }
 }
 
+abstract class MemosCollationGroup implements CollationGroup<'memos'> {
+  title: string
+  url: string
+  collations: Collation<'memos'>[]
+
+  constructor(title: string, url: string, collations: Collation<'memos'>[]) {
+    this.title = title
+    this.url = url
+    this.collations = collations
+  }
+
+  sortCollationsAlpha(): Collation<'memos'>[] {
+    this.collations.sort((a, b) => a.title.localeCompare(b.title))
+    return this.collations
+  }
+
+  sortCollationsLargest(): Collation<'memos'>[] {
+    this.collations.sort((a, b) => b.entries.length - a.entries.length)
+    return this.collations
+  }
+
+  sortCollationsMostRecent(): Collation<'memos'>[] {
+    this.collations.sort((a, b) => {
+      const aDate = a.entries[a.entries.length - 1].data.published
+      const bDate = b.entries[b.entries.length - 1].data.published
+      return aDate < bDate ? 1 : -1
+    })
+    return this.collations
+  }
+
+  add(item: CollectionEntry<'memos'>, collationTitle: string): void {
+    const collationTitleSlug = slug(collationTitle.trim())
+    const existing = this.collations.find((i) => i.titleSlug === collationTitleSlug)
+    if (existing) {
+      const alreadyHasThisMemo = existing.entries.find((e) => e.id === item.id)
+      if (!alreadyHasThisMemo) {
+        existing.entries.push(item)
+      }
+    } else {
+      this.collations.push({
+        title: collationTitle,
+        titleSlug: collationTitleSlug,
+        url: `${this.url}/${encodeURIComponent(collationTitleSlug)}`,
+        entries: [item],
+      })
+    }
+  }
+
+  match(rawKey: string): Collation<'memos'> | undefined {
+    return this.collations.find((entry) => entry.title === rawKey)
+  }
+
+  matchMany(rawKeys: string[]): Collation<'memos'>[] {
+    return this.collations.filter((entry) => rawKeys.includes(entry.title))
+  }
+}
+
+export class MemosTagsGroup extends MemosCollationGroup {
+  private constructor(title: string, url: string, items: Collation<'memos'>[]) {
+    super(title, url, items)
+  }
+
+  static async build(memos?: CollectionEntry<'memos'>[]): Promise<MemosTagsGroup> {
+    const sortedMemos = memos || (await getSortedMemos())
+    const tagsGroup = new MemosTagsGroup('Tags', '/memos/tags', [])
+    sortedMemos.forEach((memo) => {
+      const frontmatterTags = memo.data.tags || []
+      frontmatterTags.forEach((tag) => {
+        tagsGroup.add(memo, tag)
+      })
+    })
+    return tagsGroup
+  }
+}
+
 export function getPostSequenceContext(
   post: CollectionEntry<'posts'>,
   posts: CollectionEntry<'posts'>[],
