@@ -99,10 +99,7 @@ a.button {
   @apply inline-flex text-accent border-3 border-accent/30 border-double py-1.5 px-3 whitespace-nowrap hover:bg-accent/8 rounded-xl transition-colors;
 }
 
-header button,
-header input {
-  @apply !outline-none;
-}
+/* Focus indicators on header elements follow global :focus-visible rules */
 
 button {
   @apply cursor-pointer;

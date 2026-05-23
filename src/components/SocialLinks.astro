@@ -83,12 +83,7 @@ const { socialLinks } = Astro.props
   }
   {
     socialLinks.email && (
-      <a
-        href={`mailto:${socialLinks.email}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="social-link"
-      >
+      <a href={`mailto:${socialLinks.email}`} class="social-link">
         <span class="sr-only">Email</span>
         <IconEmail class="size-7" />
       </a>

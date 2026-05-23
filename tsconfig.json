@@ -1,10 +1,11 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
+  "include": [".astro/types.d.ts", "src/**/*"],
   "exclude": ["dist", "**/*.md"],
   "compilerOptions": {
     "verbatimModuleSyntax": true,
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "~/*": ["src/*"]
     },

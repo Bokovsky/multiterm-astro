@@ -12,10 +12,9 @@ function kebabToTitleCase(str: string): string {
 }
 ---
 
-<select-theme class="ms-auto" id="search">
+<select-theme class="ms-auto" id="select-theme">
   <button
     class="hover:text-accent flex cursor-pointer items-center justify-center rounded-md"
-    aria-keyshortcuts="Control+K Meta+K"
     data-open-modal
     disabled
   >
@@ -28,7 +27,7 @@ function kebabToTitleCase(str: string): string {
   >
     <div class="dialog-frame flex grow flex-col gap-4 px-10 py-1 max-w-full">
       <button
-        aria-roledescription="close"
+        aria-label="关闭"
         class="cursor-pointer fixed top-2 right-2 rounded-full"
         data-close-modal
       >

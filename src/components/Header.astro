@@ -27,20 +27,21 @@ const selectTheme =
       <nav id="nav-mobile" aria-label="Menu" class="p-0 text-accent sm:hidden">
         <button
           id="nav-mobile-button"
-          class="px-3 py-1 h-full cursor-pointer border-2 rounded-xl bg-background"
+          class="px-3 py-1 min-h-11 min-w-11 h-full cursor-pointer border-2 rounded-xl bg-background"
           type="button"
           aria-expanded="false"
-          aria-controls="nav-menu-list"
+          aria-controls="nav-mobile-list"
+          aria-label="切换菜单"
         >
           ▾
         </button>
         <ul
           id="nav-mobile-list"
-          class="invisible absolute flex flex-col bg-background shadow text-accent border-2 m-0 p-2.5 top-11.5 left-auto right-0 z-50 rounded-xl"
+          class="hidden absolute flex flex-col bg-background shadow text-accent border-2 m-0 p-2.5 top-11.5 left-auto right-0 z-50 rounded-xl"
         >
           {
             siteConfig.navLinks.map((link) => (
-              <li class="p-1" aria-expanded="false">
+              <li class="p-1">
                 <NavLink link={link} />
               </li>
             ))
@@ -53,7 +54,7 @@ const selectTheme =
     <ul class="flex flex-row text-accent">
       {
         siteConfig.navLinks.map((link) => (
-          <li class="mr-5" aria-expanded="true">
+          <li class="mr-5">
             <NavLink link={link} />
           </li>
         ))
@@ -65,24 +66,36 @@ const selectTheme =
 <script>
   const navMobileButton = document.getElementById('nav-mobile-button')
   const navMobileList = document.getElementById('nav-mobile-list')
-  const navMobileListItems = navMobileList?.querySelectorAll('li')
   const toggleNavMobileMenu = (action: 'on' | 'off' | 'toggle') => {
     let isNowOpen: boolean = false
     if (action === 'on') {
       isNowOpen = true
-      navMobileList?.classList.remove('invisible')
+      navMobileList?.classList.remove('hidden')
     } else if (action === 'off') {
       isNowOpen = false
-      navMobileList?.classList.add('invisible')
+      navMobileList?.classList.add('hidden')
     } else {
-      isNowOpen = !navMobileList?.classList.toggle('invisible')
+      isNowOpen = !navMobileList?.classList.toggle('hidden')
     }
     navMobileButton?.setAttribute('aria-expanded', isNowOpen ? 'true' : 'false')
-    navMobileListItems?.forEach((listItem) => {
-      listItem.setAttribute('aria-expanded', isNowOpen ? 'true' : 'false')
-    })
   }
   navMobileButton?.addEventListener('click', (_ev) => {
     toggleNavMobileMenu('toggle')
+  })
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !navMobileList?.classList.contains('hidden')) {
+      toggleNavMobileMenu('off')
+      navMobileButton?.focus()
+    }
+  })
+  document.addEventListener('click', (e) => {
+    if (
+      navMobileList &&
+      !navMobileList.classList.contains('hidden') &&
+      !navMobileButton?.contains(e.target as Node) &&
+      !navMobileList.contains(e.target as Node)
+    ) {
+      toggleNavMobileMenu('off')
+    }
   })
 </script>

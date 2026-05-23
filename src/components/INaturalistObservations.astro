@@ -45,7 +45,7 @@ try {
   observations.length > 0 && (
     <div class="w-full">
       <BlockHeader>我的 iNaturalist 观察</BlockHeader>
-      <div class="grid grid-cols-5 gap-2 my-5">
+      <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 my-5">
         {observations.map((obs) => (
           <a
             href={`https://www.inaturalist.org/observations/${obs.id}`}
