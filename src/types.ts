@@ -156,6 +156,34 @@ export type SocialLinks = {
   rss?: boolean
 }
 
+export interface INaturalistConfig {
+  username: string
+  limit: number
+}
+
+export interface INaturalistObservationPhoto {
+  id: number
+  url: string
+  license_code: string
+  attribution: string
+}
+
+export interface INaturalistObservation {
+  id: number
+  species_guess: string
+  observed_on: string
+  photos: INaturalistObservationPhoto[]
+  taxon: {
+    name: string
+    preferred_common_name: string
+  }
+}
+
+export type INaturalistApiResponse = {
+  total_results: number
+  results: INaturalistObservation[]
+}
+
 export interface SiteConfig {
   site: string
   font: string
@@ -170,4 +198,5 @@ export interface SiteConfig {
   socialLinks: SocialLinks
   navLinks: NavLink[]
   characters: Record<string, string>
+  inaturalist?: INaturalistConfig
 }

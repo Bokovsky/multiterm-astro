@@ -148,6 +148,10 @@ const config: SiteConfig = {
     unicorn: '/unicorn.webp',
     duck: '/duck.webp',
   },
+  inaturalist: {
+    username: 'edta2na',
+    limit: 10,
+  },
 }
 
 export default config

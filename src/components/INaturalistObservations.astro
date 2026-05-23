@@ -1,0 +1,78 @@
+---
+import BlockHeader from '~/components/BlockHeader.astro'
+import type { INaturalistApiResponse } from '~/types'
+
+interface Props {
+  username: string
+  limit: number
+}
+
+const { username, limit } = Astro.props
+
+let observations: {
+  id: number
+  species_guess: string
+  photoUrl: string
+  photoAttribution: string
+}[] = []
+
+try {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 5000)
+
+  const apiUrl = `https://api.inaturalist.org/v1/observations?user_login=${encodeURIComponent(username)}&per_page=${limit}&order_by=created_at&order=desc&photos=true`
+  const response = await fetch(apiUrl, { signal: controller.signal })
+  clearTimeout(timeout)
+
+  if (response.ok) {
+    const data = (await response.json()) as INaturalistApiResponse
+    observations = data.results
+      .filter((obs) => obs.photos && obs.photos.length > 0)
+      .map((obs) => ({
+        id: obs.id,
+        species_guess:
+          obs.species_guess || obs.taxon?.preferred_common_name || obs.taxon?.name || '',
+        photoUrl: obs.photos[0].url.replace('/square.', '/small.'),
+        photoAttribution: obs.photos[0].attribution,
+      }))
+  }
+} catch {
+  // API unavailable, component renders nothing
+}
+---
+
+{
+  observations.length > 0 && (
+    <div class="w-full">
+      <BlockHeader>我的 iNaturalist 观察</BlockHeader>
+      <div class="grid grid-cols-5 gap-2 my-5">
+        {observations.map((obs) => (
+          <a
+            href={`https://www.inaturalist.org/observations/${obs.id}`}
+            target="_blank"
+            rel="noreferrer noopener"
+            title={obs.species_guess}
+            class="block border-1 border-transparent hover:border-accent/30 rounded-lg overflow-hidden transition-colors"
+          >
+            <img
+              src={obs.photoUrl}
+              alt={obs.species_guess}
+              class="w-full aspect-square object-cover"
+              loading="lazy"
+            />
+          </a>
+        ))}
+      </div>
+      <div>
+        <a
+          href={`https://www.inaturalist.org/observations/${username}`}
+          target="_blank"
+          rel="noreferrer noopener"
+          class="button flex items-center !pl-3.5"
+        >
+          在 iNaturalist 上查看更多 &raquo;
+        </a>
+      </div>
+    </div>
+  )
+}

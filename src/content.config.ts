@@ -34,6 +34,7 @@ const homeCollection = defineCollection({
         })
         .optional(),
       githubCalendar: z.string().optional(), // GitHub username for calendar
+      inaturalist: z.string().optional(), // iNaturalist username for observations widget
     }),
 })
 

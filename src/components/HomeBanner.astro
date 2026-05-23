@@ -1,13 +1,16 @@
 ---
 import { Image } from 'astro:assets'
 import GitHubActivityCalendar from '~/components/GitHubActivityCalendar.astro'
+import INaturalistObservations from '~/components/INaturalistObservations.astro'
 import type { FrontmatterImage } from '~/types'
+import siteConfig from '~/site.config'
 
 interface Props {
   avatarImage?: FrontmatterImage
   githubCalendar?: string
+  inaturalistUsername?: string
 }
-const { avatarImage, githubCalendar } = Astro.props
+const { avatarImage, githubCalendar, inaturalistUsername } = Astro.props
 ---
 
 <div class="my-6 md:mx-2">
@@ -34,4 +37,12 @@ const { avatarImage, githubCalendar } = Astro.props
     </div>
   </div>
   {githubCalendar && <GitHubActivityCalendar username={githubCalendar} />}
+  {
+    inaturalistUsername && (
+      <INaturalistObservations
+        username={inaturalistUsername}
+        limit={siteConfig.inaturalist?.limit ?? 10}
+      />
+    )
+  }
 </div>
