@@ -1,6 +1,8 @@
-ignoredBuiltDependencies:
-  - '@parcel/watcher'
-  - '@tailwindcss/oxide'
-  - '@vercel/speed-insights'
+allowBuilds:
+  '@vercel/speed-insights': true
+  esbuild: true
+  sharp: true
+onlyBuiltDependencies:
   - esbuild
   - sharp
+storeDir: .nodeenv\pnpm-store

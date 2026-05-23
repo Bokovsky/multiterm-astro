@@ -17,6 +17,7 @@
     "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
     "@astrojs/ts-plugin": "^1.10.7",
+    "@expo-google-fonts/jetbrains-mono": "^0.4.1",
     "@expressive-code/plugin-line-numbers": "^0.41.3",
     "@fontsource-variable/jetbrains-mono": "^5.2.6",
     "@pagefind/default-ui": "^1.4.0",
