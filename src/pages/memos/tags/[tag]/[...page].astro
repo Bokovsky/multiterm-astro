@@ -21,36 +21,35 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page, tagTitle } = Astro.props
 const allMemos = await getSortedMemos()
 const allTags = [...new Set(allMemos.flatMap((m) => m.data.tags || []))].sort()
-const pageTitle = `Memos - ${tagTitle}` + (page.currentPage > 1 ? ` - Page ${page.currentPage}` : '')
+const pageTitle =
+  `Memos - ${tagTitle}` + (page.currentPage > 1 ? ` - Page ${page.currentPage}` : '')
 ---
 
-<Layout
-  title={pageTitle}
-  description={`Memos tagged with ${tagTitle}`}
-  tags={allTags}
->
+<Layout title={pageTitle} description={`Memos tagged with ${tagTitle}`} tags={allTags}>
   <div class="mt-2 sm:mt-0">
     <TagFilter tags={allTags} currentTag={tagTitle} />
     {page.data.map((memo) => <MemoPreview memo={memo} />)}
-    {page.lastPage > 1 && (
-      <nav class="flex justify-between mt-8">
-        {page.url.prev && (
-          <a
-            href={page.url.prev}
-            class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 text-sm"
-          >
-            ← Newer Memos
-          </a>
-        )}
-        {page.url.next && (
-          <a
-            href={page.url.next}
-            class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 text-sm ml-auto"
-          >
-            Older Memos →
-          </a>
-        )}
-      </nav>
-    )}
+    {
+      page.lastPage > 1 && (
+        <nav class="flex justify-between mt-8">
+          {page.url.prev && (
+            <a
+              href={page.url.prev}
+              class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 text-sm"
+            >
+              ← Newer Memos
+            </a>
+          )}
+          {page.url.next && (
+            <a
+              href={page.url.next}
+              class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 text-sm ml-auto"
+            >
+              Older Memos →
+            </a>
+          )}
+        </nav>
+      )
+    }
   </div>
 </Layout>

@@ -31,5 +31,6 @@ templates/
 dev.ps1
 AGENTS.md
 .daily
+.codegraph
 
 src/content/posts/260329.md
