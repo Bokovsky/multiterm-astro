@@ -34,3 +34,8 @@ AGENTS.md
 .codegraph
 
 src/content/posts/260329.md
+
+# personal content — deployed via Vercel CLI, not synced to GitHub
+src/content/posts/
+src/content/memos/
+src/content/avatar.jpg
