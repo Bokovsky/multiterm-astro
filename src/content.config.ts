@@ -57,6 +57,11 @@ const memosCollection = defineCollection({
     title: z.string().optional(),
     published: z.coerce.date(),
     tags: z.array(z.string()).optional().default([]),
+    externalUrl: z.string().url().optional(),
+    externalTitle: z.string().optional(),
+    musicUrl: z.string().url().optional(),
+    musicTitle: z.string().optional(),
+    musicArtist: z.string().optional(),
   }),
 })
 

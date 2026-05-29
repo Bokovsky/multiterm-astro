@@ -1,0 +1,49 @@
+---
+interface Props {
+  url: string
+  title?: string
+}
+
+const { url, title } = Astro.props
+
+let pageTitle = title || ''
+const domain = new URL(url).hostname
+
+if (!pageTitle) {
+  try {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 5000)
+    const response = await fetch(url, { signal: controller.signal })
+    clearTimeout(timeout)
+    if (response.ok) {
+      const html = await response.text()
+      const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i)
+      if (titleMatch) pageTitle = titleMatch[1].trim()
+    }
+  } catch {
+    pageTitle = domain
+  }
+}
+
+const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`
+---
+<a
+  href={url}
+  target="_blank"
+  rel="noreferrer noopener"
+  class="block border-1 border-accent/10 hover:border-accent/30 rounded-xl px-4 py-3 my-4 bg-foreground/5 transition-colors"
+>
+  <div class="flex items-center gap-3">
+    <img
+      src={faviconUrl}
+      alt=""
+      class="size-4 shrink-0"
+      loading="lazy"
+      onerror="this.style.display='none'"
+    />
+    <div class="min-w-0">
+      <div class="text-sm truncate">{pageTitle}</div>
+      <div class="text-xs text-foreground/50 mt-0.5">{domain}</div>
+    </div>
+  </div>
+</a>

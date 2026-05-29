@@ -26,7 +26,7 @@ const pageTitle =
 ---
 
 <Layout title={pageTitle} description={`Memos tagged with ${tagTitle}`} tags={allTags}>
-  <div class="mt-2 sm:mt-0">
+  <div class="mt-2 sm:mt-0 max-w-xl mx-auto divide-y divide-foreground/[0.06]">
     <TagFilter tags={allTags} currentTag={tagTitle} />
     {page.data.map((memo) => <MemoPreview memo={memo} />)}
     {
