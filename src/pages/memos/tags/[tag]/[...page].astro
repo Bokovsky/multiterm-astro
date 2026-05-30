@@ -2,14 +2,13 @@
 import type { GetStaticPaths } from 'astro'
 import Layout from '~/layouts/Layout.astro'
 import MemoPreview from '~/components/MemoPreview.astro'
-import TagFilter from '~/components/TagFilter.astro'
 import { getSortedMemos, MemosTagsGroup } from '~/utils'
 import type { CollectionEntry } from 'astro:content'
 
 export const getStaticPaths = (async ({ paginate }) => {
   const tagsGroup = await MemosTagsGroup.build()
   const pages = tagsGroup.collations.flatMap((tag) => {
-    return paginate(tag.entries.reverse(), {
+    return paginate(tag.entries, {
       props: { tagTitle: tag.title },
       params: { tag: tag.titleSlug },
       pageSize: 8,
@@ -26,8 +25,7 @@ const pageTitle =
 ---
 
 <Layout title={pageTitle} description={`Memos tagged with ${tagTitle}`} tags={allTags}>
-  <div class="mt-2 sm:mt-0 max-w-xl mx-auto divide-y divide-foreground/[0.06]">
-    <TagFilter tags={allTags} currentTag={tagTitle} />
+  <div class="mt-2 sm:mt-0 divide-y divide-foreground/[0.06]">
     {page.data.map((memo) => <MemoPreview memo={memo} />)}
     {
       page.lastPage > 1 && (

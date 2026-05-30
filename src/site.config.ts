@@ -34,10 +34,6 @@ const config: SiteConfig = {
       url: '/memos',
     },
     {
-      name: 'Sports',
-      url: 'https://sports.macondo.cc/',
-    },
-    {
       name: 'RSS',
       url: '/rss.xml',
     },

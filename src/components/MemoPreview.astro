@@ -1,12 +1,9 @@
 ---
-import { Image } from 'astro:assets'
-import { getEntry } from 'astro:content'
 import { dateString } from '~/utils'
 import ExternalLinkCard from '~/components/ExternalLinkCard.astro'
 import MusicCard from '~/components/MusicCard.astro'
 import MarkdownIt from 'markdown-it'
 import type { CollectionEntry } from 'astro:content'
-import type { FrontmatterImage } from '~/types'
 
 interface Props {
   memo: CollectionEntry<'memos'>
@@ -14,7 +11,6 @@ interface Props {
 
 const { memo } = Astro.props
 const formattedDate = dateString(memo.data.published)
-const title = memo.data.title || formattedDate
 const tags = memo.data.tags || []
 const externalUrl = memo.data.externalUrl
 const externalTitle = memo.data.externalTitle
@@ -71,39 +67,12 @@ function parseAndRenderSegments(body: string): ContentSegment[] {
 
 const segments = memo.body ? parseAndRenderSegments(memo.body) : []
 const hasImages = segments.some((s) => s.type === 'images')
-
-let avatarData: FrontmatterImage | undefined
-try {
-  const homeEntry = await getEntry('home', 'home')
-  avatarData = homeEntry?.data.avatarImage
-} catch {
-  // Avatar unavailable
-}
 ---
 
 <article
   class="memo-card relative w-full p-4 bg-foreground/[0.02]"
 >
-  <div class="flex gap-3">
-    <div class="shrink-0 mt-1">
-      {
-        avatarData && (
-          <Image
-            src={avatarData.src}
-            alt={avatarData.alt}
-            class="rounded-full size-8 md:size-10 border-2 border-accent/15"
-            widths={[80]}
-            height={40}
-            width={40}
-          />
-        )
-      }
-    </div>
-    <div class="min-w-0 flex-1">
-      <h3 class="text-sm text-foreground/70 font-semibold mb-2">
-        {title}
-      </h3>
-      {
+  {
         segments.length > 0
           ? (
               <div class="memo-content prose">
@@ -163,14 +132,14 @@ try {
         )
       }
       <div class="flex items-center gap-2 mt-3">
-        <span class="text-xs text-foreground/40">{formattedDate}</span>
+        <span class="text-sm text-foreground/40">{formattedDate}</span>
         {
           tags.length > 0 && (
             <div class="flex flex-wrap gap-1.5">
               {tags.map((tag) => (
                 <a
                   href={`/memos/tags/${encodeURIComponent(tag)}`}
-                  class="rounded-2xl py-px px-2.5 text-xs bg-foreground/5 hover:bg-foreground/10 border-1 border-foreground/10 transition-colors"
+                  class="rounded-2xl py-px px-2.5 text-sm bg-foreground/5 hover:bg-foreground/10 border-1 border-foreground/10 transition-colors"
                 >
                   {tag}
                 </a>
@@ -179,8 +148,6 @@ try {
           )
         }
       </div>
-    </div>
-  </div>
 </article>
 
 <style is:global>
