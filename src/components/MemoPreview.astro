@@ -1,9 +1,8 @@
 ---
-import { dateString } from '~/utils'
+import { dateString, tagSlug } from '~/utils'
 import ExternalLinkCard from '~/components/ExternalLinkCard.astro'
 import MusicCard from '~/components/MusicCard.astro'
 import MarkdownIt from 'markdown-it'
-import { slug } from 'github-slugger'
 import type { CollectionEntry } from 'astro:content'
 
 interface Props {
@@ -139,7 +138,7 @@ const hasImages = segments.some((s) => s.type === 'images')
             <div class="flex flex-wrap gap-1.5">
               {tags.map((tag) => (
                 <a
-                  href={`/memos/tags/${slug(tag)}`}
+                  href={`/memos/tags/${tagSlug(tag)}`}
                   class="rounded-2xl py-px px-2.5 text-sm bg-foreground/5 hover:bg-foreground/10 border-1 border-foreground/10 transition-colors"
                 >
                   {tag}

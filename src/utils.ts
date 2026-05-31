@@ -15,9 +15,20 @@ import {
 import { getCollection, type CollectionEntry } from 'astro:content'
 import Color from 'color'
 import { slug } from 'github-slugger'
+import { pinyin } from 'pinyin'
 
 export function dateString(date: Date) {
   return date.toISOString().split('T')[0]
+}
+
+export function tagSlug(title: string): string {
+  const lower = title.trim().toLowerCase()
+  const hasChinese = /[\u4e00-\u9fff]/.test(lower)
+  if (!hasChinese) return slug(lower)
+  const py = pinyin(lower, { style: 'normal' })
+    .map((seg: string[]) => seg[0])
+    .join('')
+  return slug(py)
 }
 
 export function pick(obj: Record<string, any>, keys: string[]) {
@@ -267,7 +278,7 @@ abstract class PostsCollationGroup implements CollationGroup<'posts'> {
   }
 
   add(item: CollectionEntry<'posts'>, collationTitle: string): void {
-    const collationTitleSlug = slug(collationTitle.trim())
+    const collationTitleSlug = tagSlug(collationTitle)
     const existing = this.collations.find((i) => i.titleSlug === collationTitleSlug)
     if (existing) {
       const alreadyHasThisPost = existing.entries.find((e) => e.id === item.id)
@@ -278,7 +289,7 @@ abstract class PostsCollationGroup implements CollationGroup<'posts'> {
       this.collations.push({
         title: collationTitle,
         titleSlug: collationTitleSlug,
-        url: `${this.url}/${encodeURIComponent(collationTitleSlug)}`,
+        url: `${this.url}/${collationTitleSlug}`,
         entries: [item],
       })
     }
@@ -363,7 +374,7 @@ abstract class MemosCollationGroup implements CollationGroup<'memos'> {
   }
 
   add(item: CollectionEntry<'memos'>, collationTitle: string): void {
-    const collationTitleSlug = slug(collationTitle.trim())
+    const collationTitleSlug = tagSlug(collationTitle)
     const existing = this.collations.find((i) => i.titleSlug === collationTitleSlug)
     if (existing) {
       const alreadyHasThisMemo = existing.entries.find((e) => e.id === item.id)
@@ -374,7 +385,7 @@ abstract class MemosCollationGroup implements CollationGroup<'memos'> {
       this.collations.push({
         title: collationTitle,
         titleSlug: collationTitleSlug,
-        url: `${this.url}/${encodeURIComponent(collationTitleSlug)}`,
+        url: `${this.url}/${collationTitleSlug}`,
         entries: [item],
       })
     }
