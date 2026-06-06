@@ -1,5 +1,7 @@
 ---
 import siteConfig from '~/site.config'
+import IconNotByAI from '~/icons/notbyai.svg'
+import IconByNcNd from '~/icons/by-nc-nd.svg'
 ---
 
 <footer
@@ -24,5 +26,23 @@ import siteConfig from '~/site.config'
         href="https://github.com/stelcodes/multiterm-astro">MultiTerm</a
       >
     </span>
+  </div>
+  <div class="flex items-center justify-center gap-4 h-7">
+    <a
+      href="https://notbyai.fyi"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center text-foreground/30 hover:text-foreground/50 transition-colors"
+    >
+      <IconNotByAI class="h-6 w-auto" />
+    </a>
+    <a
+      href="https://creativecommons.org/licenses/by-nc-nd"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center text-foreground/30 hover:text-foreground/50 transition-colors"
+    >
+      <IconByNcNd class="h-6 w-auto" />
+    </a>
   </div>
 </footer>
