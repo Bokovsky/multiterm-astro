@@ -78,56 +78,50 @@ const hasImages = segments.some((s) => s.type === 'images')
   class="memo-card relative w-full p-4 bg-foreground/[0.02]"
 >
   {
-        segments.length > 0
-          ? (
-              <div class="memo-content prose">
-                {
-                  segments.map((seg) =>
-                    seg.type === 'text' ? (
-                      <Fragment set:html={seg.html || ''} />
-                    ) : (
-                      <div
-                        class:list={[
-                          'memo-gallery not-prose grid gap-[3px]',
-                          seg.images!.length === 1
-                            ? 'grid-cols-1'
-                            : seg.images!.length === 2
-                              ? 'grid-cols-2'
-                              : 'grid-cols-3',
-                        ]}
-                        style="max-width: 100%"
-                      >
-                        {seg.images!.map((url) => (
-                          <img
-                            src={url}
-                            alt=""
-                            class="w-full aspect-square object-cover cursor-zoom-in rounded-[2px]"
-                            loading="lazy"
-                          />
-                        ))}
-                      </div>
-                    ),
-                  )
-                }
+    segments.length > 0 && (
+      <div class="memo-content prose">
+        {
+          segments.map((seg) =>
+            seg.type === 'text' ? (
+              <Fragment set:html={seg.html || ''} />
+            ) : (
+              <div
+                class:list={[
+                  'memo-gallery not-prose grid gap-[3px]',
+                  seg.images!.length === 1
+                    ? 'grid-cols-1'
+                    : seg.images!.length === 2
+                      ? 'grid-cols-2'
+                      : 'grid-cols-3',
+                ]}
+                style="max-width: 100%"
+              >
+                {seg.images!.map((url) => (
+                  <img
+                    src={url}
+                    alt=""
+                    class="w-full aspect-square object-cover cursor-zoom-in rounded-[2px]"
+                    loading="lazy"
+                  />
+                ))}
               </div>
-            )
-          : (
-              <div class="memo-content prose">
-                暂无内容
-              </div>
-            )
-      }
-      {
-        hasImages && (
-          <dialog
-            aria-label="查看图片"
-            class="memo-lightbox fixed inset-0 m-auto place-self-center backdrop:bg-background/80 bg-transparent max-w-[90vw] max-h-[90vh] rounded-xl open:flex items-center justify-center"
-          >
-            <img src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-lg" />
-          </dialog>
-        )
-      }
-      {
+            ),
+          )
+        }
+      </div>
+    )
+  }
+  {
+    hasImages && (
+      <dialog
+        aria-label="查看图片"
+        class="memo-lightbox fixed inset-0 m-auto place-self-center backdrop:bg-background/80 bg-transparent max-w-[90vw] max-h-[90vh] rounded-xl open:flex items-center justify-center"
+      >
+        <img src="" alt="" class="max-w-full max-h-[85vh] object-contain rounded-lg" />
+      </dialog>
+    )
+  }
+  {
         externalUrl && (
           <ExternalLinkCard url={externalUrl} title={externalTitle} />
         )
