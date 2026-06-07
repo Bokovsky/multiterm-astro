@@ -113,6 +113,16 @@ article img {
   }
 }
 
+/* Reset article img styles for gallery, music cards and other non-prose contexts */
+.not-prose img,
+.memo-card img {
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  display: block !important;
+}
+
 .prose {
   @apply text-lg/7;
 
