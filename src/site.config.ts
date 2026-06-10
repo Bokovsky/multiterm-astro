@@ -4,8 +4,8 @@ const config: SiteConfig = {
   site: 'https://blog.macondo.cc',
   title: 'Macondo',
   description: '不定期更新的博客，分享技术学习和生活随笔',
-  author: 'L',
-  tags: ['macondo.cc', 'L', 'Blog', 'Astro', 'macondo'],
+  author: 'EDTA',
+  tags: ['macondo.cc', 'EDTA', 'Blog', 'Astro', 'macondo'],
   socialCardAvatarImage: './src/content/avatar.jpg',
   // Font imported from @fontsource or elsewhere, used for the entire site.
   // To change this see src/styles/global.css and import a different font.
