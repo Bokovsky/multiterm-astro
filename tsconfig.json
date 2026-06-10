@@ -4,9 +4,8 @@
   "exclude": ["dist", "**/*.md"],
   "compilerOptions": {
     "verbatimModuleSyntax": true,
-    "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["./src/*"]
     },
     "plugins": [
       {
