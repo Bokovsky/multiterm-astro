@@ -21,6 +21,8 @@ import remarkUnknownDirectives from './src/plugins/remark-unknown-directives' /*
 import remarkMath from 'remark-math' /* for latex math support */
 import rehypeKatex from 'rehype-katex' /* again, for latex math support */
 import remarkGemoji from './src/plugins/remark-gemoji' /* for shortcode emoji support */
+import remarkCjkSpacing from './src/plugins/remark-cjk-spacing' /* for CJK spacing */
+import remarkChemicalSubscript from './src/plugins/remark-chemical-subscript' /* for chemical subscripts */
 import rehypePixelated from './src/plugins/rehype-pixelated' /* Custom plugin to handle pixelated images */
 import rehypeCdnImage from './src/plugins/rehype-cdn-image' /* CDN image resolution */
 
@@ -31,6 +33,8 @@ export default defineConfig({
   prefetch: true,
   markdown: {
     remarkPlugins: [
+      remarkChemicalSubscript,
+      remarkCjkSpacing,
       [remarkDescription, { maxChars: 200 }],
       remarkReadingTime,
       remarkDirective,

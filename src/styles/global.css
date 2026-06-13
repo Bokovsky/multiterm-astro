@@ -126,6 +126,9 @@ article img {
 .prose {
   @apply text-lg/7;
 
+  hanging-punctuation: first last;
+  line-break: strict;
+
   code:not(.expressive-code code) {
     @apply text-sm text-foreground/90 bg-foreground/5 px-2 py-1 rounded-lg whitespace-nowrap;
   }

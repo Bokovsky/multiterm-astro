@@ -86,6 +86,9 @@ importers:
       mdast-util-to-string:
         specifier: ^4.0.0
         version: 4.0.0
+      pangu:
+        specifier: ^7.2.1
+        version: 7.2.1
       pinyin:
         specifier: ^4.0.0
         version: 4.0.0
@@ -3202,6 +3205,11 @@ packages:
 
   pako@0.2.9:
     resolution: {integrity: sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA==}
+
+  pangu@7.2.1:
+    resolution: {integrity: sha512-HEWJHmYcJhGz5wGebMaKblzu709wUjzsnJzwdjaowAKQzHIHQDmWGpCbWWPx19Exnv/RaQ3UhUg4LkttWZsbCw==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
 
   parse-css-color@0.2.1:
     resolution: {integrity: sha512-bwS/GGIFV3b6KS4uwpzCFj4w297Yl3uqnSgIPsoQkx7GMLROXfMnWvxfNkL0oh8HVhZA4hvJoEoEIqonfJ3BWg==}
@@ -7408,6 +7416,8 @@ snapshots:
       '@pagefind/windows-x64': 1.5.2
 
   pako@0.2.9: {}
+
+  pangu@7.2.1: {}
 
   parse-css-color@0.2.1:
     dependencies:

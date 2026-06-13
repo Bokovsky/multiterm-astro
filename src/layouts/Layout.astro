@@ -7,6 +7,7 @@ import SelectThemeLoader from '~/components/SelectThemeLoader.astro'
 import siteConfig from '~/site.config'
 import { pick, resolveThemeColorStyles } from '~/utils'
 import crypto from 'crypto'
+import pangu from 'pangu'
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
 
@@ -24,8 +25,8 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '') 
 const isArticlePath =
   Astro.url.pathname.startsWith('/posts') || Astro.url.pathname.startsWith('/memos')
 const pageType = isArticlePath ? 'article' : 'website'
-const pageTitle = title ? `${title} - ${siteConfig.title}` : siteConfig.title
-const pageDescription = description || siteConfig.description
+const pageTitle = title ? pangu.spacingText(`${title} - ${siteConfig.title}`) : siteConfig.title
+const pageDescription = pangu.spacingText(description || siteConfig.description)
 const pageAuthor = author || siteConfig.author
 const pageImage =
   pageType === 'article'
