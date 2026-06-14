@@ -32,6 +32,7 @@ activate-dev.ps1
 templates/
 .vercel
 dev.ps1
+forge.ps1
 AGENTS.md
 .daily
 .codegraph
