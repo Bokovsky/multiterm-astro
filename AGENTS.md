@@ -464,7 +464,6 @@ When an edit accidentally removes surrounding code:
 | Remote | URL | Visibility | Push Command |
 |--------|-----|------------|-------------|
 | origin | `github.com/Bokovsky/multiterm-astro` (fork) | Public | `git push origin dev` |
-| gitea | `192.168.31.11:8418/lam/blog` (LAN) | Private | `git push gitea dev` |
 | homelab | `192.168.31.11:3309/homelab/blog` (LAN) | Private | `.\forge.ps1` |
 
 **Content separation**: Personal content (`src/content/posts/`, `src/content/memos/`) is gitignored on GitHub; only synced to homelab via `forge.ps1`. Vercel auto-deploy is disabled via `vercel.json`.
