@@ -13,13 +13,11 @@ import SeriesSection from '~/components/SeriesSection.astro'
 const home = await getCollection('home')
 let HomeContent
 let homeAvatarImage
-let homeINaturalist
 if (home.length > 0) {
   const homeEntry = home[0]
   const { Content } = await render(homeEntry)
   HomeContent = Content
   homeAvatarImage = homeEntry.data.avatarImage
-  homeINaturalist = homeEntry.data.inaturalist
 }
 const sortedPosts = await getSortedPosts()
 const postsHaveTags = sortedPosts.some(
@@ -32,10 +30,7 @@ const postsHaveSeries = sortedPosts.some((post) => post.data.series)
 <Layout>
   {
     HomeContent && (
-      <HomeBanner
-        avatarImage={homeAvatarImage}
-        inaturalistUsername={homeINaturalist}
-      >
+      <HomeBanner avatarImage={homeAvatarImage}>
         <HomeContent />
       </HomeBanner>
     )

@@ -22,7 +22,7 @@ const config: SiteConfig = {
       url: '/',
     },
     {
-      name: 'About',
+      name: 'Me',
       url: '/about',
     },
     {
@@ -32,10 +32,6 @@ const config: SiteConfig = {
     {
       name: 'Memos',
       url: '/memos',
-    },
-    {
-      name: 'RSS',
-      url: '/rss.xml',
     },
   ],
   themes: {

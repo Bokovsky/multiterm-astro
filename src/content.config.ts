@@ -64,9 +64,26 @@ const memosCollection = defineCollection({
   }),
 })
 
+const aboutCollection = defineCollection({
+  loader: glob({ pattern: ['about.md', 'about.mdx'], base: './src/content' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+  }),
+})
+
+const nowCollection = defineCollection({
+  loader: glob({ pattern: ['now.md', 'now.mdx'], base: './src/content' }),
+  schema: z.object({
+    updated: z.coerce.date(),
+  }),
+})
+
 export const collections = {
   posts: postsCollection,
   home: homeCollection,
   addendum: addendumCollection,
   memos: memosCollection,
+  about: aboutCollection,
+  now: nowCollection,
 }
