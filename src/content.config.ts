@@ -72,18 +72,10 @@ const aboutCollection = defineCollection({
   }),
 })
 
-const nowCollection = defineCollection({
-  loader: glob({ pattern: ['now.md', 'now.mdx'], base: './src/content' }),
-  schema: z.object({
-    updated: z.coerce.date(),
-  }),
-})
-
 export const collections = {
   posts: postsCollection,
   home: homeCollection,
   addendum: addendumCollection,
   memos: memosCollection,
   about: aboutCollection,
-  now: nowCollection,
 }

@@ -1,0 +1,28 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import BlockHeader from '~/components/BlockHeader.astro'
+import INaturalistObservations from '~/components/INaturalistObservations.astro'
+import siteConfig from '~/site.config'
+import { getEntry, render } from 'astro:content'
+
+const about = await getEntry('about', 'about')
+const { Content: AboutContent } = await render(about)
+---
+
+<Layout title={about.data.title} description={about.data.description}>
+  <div class="my-6 md:mx-2">
+    <BlockHeader>About</BlockHeader>
+    <div class="prose max-w-full">
+      <AboutContent />
+    </div>
+  </div>
+
+  {siteConfig.inaturalist?.username && (
+    <div class="my-6 md:mx-2">
+      <INaturalistObservations
+        username={siteConfig.inaturalist.username}
+        limit={siteConfig.inaturalist.limit ?? 10}
+      />
+    </div>
+  )}
+</Layout>

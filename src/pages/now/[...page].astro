@@ -15,7 +15,7 @@ const { page } = Astro.props
 const allMemos = await getSortedMemos()
 const allTags = [...new Set(allMemos.flatMap((m) => m.data.tags || []))].sort()
 const memos = page.data as CollectionEntry<'memos'>[]
-const pageTitle = page.currentPage > 1 ? `Memos - Page ${page.currentPage}` : 'Memos'
+const pageTitle = page.currentPage > 1 ? `Now - Page ${page.currentPage}` : 'Now'
 ---
 
 <Layout
@@ -27,9 +27,9 @@ const pageTitle = page.currentPage > 1 ? `Memos - Page ${page.currentPage}` : 'M
     {memos.map((memo) => <MemoPreview memo={memo} />)}
     <Pagination
       prevLink={page.url.prev ? page.url.prev : undefined}
-      prevText="Newer Memos"
+      prevText="Newer"
       nextLink={page.url.next ? page.url.next : undefined}
-      nextText="Older Memos"
+      nextText="Older"
     />
   </div>
 </Layout>

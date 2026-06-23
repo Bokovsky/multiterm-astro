@@ -407,7 +407,7 @@ export class MemosTagsGroup extends MemosCollationGroup {
 
   static async build(memos?: CollectionEntry<'memos'>[]): Promise<MemosTagsGroup> {
     const sortedMemos = memos || (await getSortedMemos())
-    const tagsGroup = new MemosTagsGroup('Tags', '/memos/tags', [])
+    const tagsGroup = new MemosTagsGroup('Tags', '/now/tags', [])
     sortedMemos.forEach((memo) => {
       const frontmatterTags = memo.data.tags || []
       frontmatterTags.forEach((tag) => {

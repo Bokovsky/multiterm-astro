@@ -1,5 +1,5 @@
 {
-  "git": {
-    "deploymentEnabled": false
-  }
+  "redirects": [
+    { "source": "/about", "destination": "/me", "permanent": true }
+  ]
 }

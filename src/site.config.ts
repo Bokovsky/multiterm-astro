@@ -23,15 +23,15 @@ const config: SiteConfig = {
     },
     {
       name: 'Me',
-      url: '/about',
+      url: '/me',
     },
     {
       name: 'Archive',
       url: '/posts',
     },
     {
-      name: 'Memos',
-      url: '/memos',
+      name: 'Now',
+      url: '/now',
     },
   ],
   themes: {

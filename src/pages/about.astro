@@ -1,50 +1,11 @@
----
-import Layout from '~/layouts/Layout.astro'
-import BlockHeader from '~/components/BlockHeader.astro'
-import INaturalistObservations from '~/components/INaturalistObservations.astro'
-import siteConfig from '~/site.config'
-import { getEntry, render } from 'astro:content'
-
-const about = await getEntry('about', 'about')
-const { Content: AboutContent } = await render(about)
-
-const now = await getEntry('now', 'now')
-const { Content: NowContent } = await render(now)
----
-
-<Layout title={about.data.title} description={about.data.description}>
-  <div class="my-6 md:mx-2">
-    <BlockHeader>About</BlockHeader>
-    <div class="prose max-w-full">
-      <AboutContent />
-    </div>
-  </div>
-
-  {now && (
-    <div class="my-6 md:mx-2">
-      <BlockHeader>Now</BlockHeader>
-      <div class="prose max-w-full">
-        <NowContent />
-      </div>
-      <p class="text-sm text-foreground/60 mt-2">
-        更新于：
-        <time datetime={now.data.updated.toISOString()}>
-          {now.data.updated.toLocaleDateString('zh-CN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
-        </time>
-      </p>
-    </div>
-  )}
-
-  {siteConfig.inaturalist?.username && (
-    <div class="my-6 md:mx-2">
-      <INaturalistObservations
-        username={siteConfig.inaturalist.username}
-        limit={siteConfig.inaturalist.limit ?? 10}
-      />
-    </div>
-  )}
-</Layout>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0;url=/me" />
+    <title>跳转中...</title>
+  </head>
+  <body>
+    <p>正在跳转到 <a href="/me">/me</a>...</p>
+  </body>
+</html>

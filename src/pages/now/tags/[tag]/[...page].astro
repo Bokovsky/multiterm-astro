@@ -21,10 +21,10 @@ const { page, tagTitle } = Astro.props
 const allMemos = await getSortedMemos()
 const allTags = [...new Set(allMemos.flatMap((m) => m.data.tags || []))].sort()
 const pageTitle =
-  `Memos - ${tagTitle}` + (page.currentPage > 1 ? ` - Page ${page.currentPage}` : '')
+  `Now - ${tagTitle}` + (page.currentPage > 1 ? ` - Page ${page.currentPage}` : '')
 ---
 
-<Layout title={pageTitle} description={`Memos tagged with ${tagTitle}`} tags={allTags}>
+<Layout title={pageTitle} description={`Now tagged with ${tagTitle}`} tags={allTags}>
   <div class="mt-2 sm:mt-0 divide-y divide-foreground/[0.06]">
     {page.data.map((memo) => <MemoPreview memo={memo} />)}
     {
@@ -35,7 +35,7 @@ const pageTitle =
               href={page.url.prev}
               class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 text-sm"
             >
-              ← Newer Memos
+              ← Newer
             </a>
           )}
           {page.url.next && (
@@ -43,7 +43,7 @@ const pageTitle =
               href={page.url.next}
               class="rounded-2xl py-[3px] px-3.5 bg-foreground/1 hover:bg-foreground/5 transition-colors border-1 border-foreground/16 text-sm ml-auto"
             >
-              Older Memos →
+              Older →
             </a>
           )}
         </nav>

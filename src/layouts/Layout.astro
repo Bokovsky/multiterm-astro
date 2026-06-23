@@ -23,7 +23,7 @@ interface Props {
 const { title, description, tags, author, publishedDate, modifiedDate } = Astro.props
 const pageUrl = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '') // Remove trailing slash for consistency
 const isArticlePath =
-  Astro.url.pathname.startsWith('/posts') || Astro.url.pathname.startsWith('/memos')
+  Astro.url.pathname.startsWith('/posts') || Astro.url.pathname.startsWith('/now')
 const pageType = isArticlePath ? 'article' : 'website'
 const pageTitle = title ? pangu.spacingText(`${title} - ${siteConfig.title}`) : siteConfig.title
 const pageDescription = pangu.spacingText(description || siteConfig.description)
