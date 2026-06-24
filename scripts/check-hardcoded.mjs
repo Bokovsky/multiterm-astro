@@ -30,7 +30,12 @@ const cssVarColor = /var\(--theme-[\w-]+\)/
 const skipFiles = ['site.config.ts', 'types.ts', 'env.d.ts']
 
 function scanFile(path) {
-  const content = readFileSync(path, 'utf-8')
+  let content
+  try {
+    content = readFileSync(path, 'utf-8')
+  } catch {
+    return [] // File no longer on disk (deleted but not yet committed)
+  }
   const lines = content.split('\n')
   const issues = []
 

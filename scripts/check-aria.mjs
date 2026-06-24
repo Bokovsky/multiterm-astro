@@ -12,7 +12,12 @@ const SRC = 'src'
 function scanFile(path) {
   if (!path.endsWith('.astro')) return []
 
-  const content = readFileSync(path, 'utf-8')
+  let content
+  try {
+    content = readFileSync(path, 'utf-8')
+  } catch {
+    return [] // File no longer on disk (deleted but not yet committed)
+  }
   const lines = content.split('\n')
   const issues = []
 

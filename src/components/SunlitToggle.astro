@@ -1,0 +1,60 @@
+<sunlit-toggle class="ms-auto" id="toggle-theme">
+  <button
+    class="hover:text-accent flex cursor-pointer items-center justify-center rounded-md"
+    aria-label="切换主题"
+  >
+    <svg id="sun-icon" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 text-accent">
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+    </svg>
+    <svg id="moon-icon" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 text-accent">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  </button>
+</sunlit-toggle>
+
+<style is:global>
+  #moon-icon { display: none; }
+  [data-theme="vitesse-light"] #sun-icon { display: none; }
+  [data-theme="vitesse-light"] #moon-icon { display: block; }
+</style>
+
+<script>
+  class SunlitToggle extends HTMLElement {
+    constructor() {
+      super()
+      const btn = this.querySelector('button')
+      btn?.addEventListener('click', () => this.toggleTheme())
+    }
+
+    toggleTheme() {
+      const html = document.documentElement
+      const current = html.getAttribute('data-theme')
+      const next = current === 'vitesse-dark' ? 'vitesse-light' : 'vitesse-dark'
+      html.setAttribute('data-theme', next)
+      localStorage.setItem('data-theme', next)
+    }
+  }
+
+  customElements.define('sunlit-toggle', SunlitToggle)
+
+  // Restore saved theme on page load (replaces SelectThemeLoader)
+  const saved = localStorage.getItem('data-theme')
+  if (saved === 'vitesse-dark' || saved === 'vitesse-light') {
+    document.documentElement.setAttribute('data-theme', saved)
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Space') {
+      const toggle = document.querySelector('sunlit-toggle')
+      if (toggle) {
+        // Only trigger if not focused on an input/textarea
+        const tag = (e.target as HTMLElement).tagName
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+          e.preventDefault()
+          toggle.toggleTheme()
+        }
+      }
+    }
+  })
+</script>

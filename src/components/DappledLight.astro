@@ -1,0 +1,274 @@
+---
+const SHUTTER_COUNT = 23
+---
+
+<div id="dappled-light">
+  <div id="glow"></div>
+  <div id="glow-bounce"></div>
+  <div class="perspective">
+    <div id="leaves">
+      <svg style="width: 0; height: 0; position: absolute;">
+        <defs>
+          <filter id="wind" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" numOctaves="2" seed="1">
+              <animate
+                attributeName="baseFrequency" dur="16s"
+                keyTimes="0;0.33;0.66;1"
+                values="0.005 0.003;0.01 0.009;0.008 0.004;0.005 0.003"
+                repeatCount="indefinite"
+              />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic">
+              <animate
+                attributeName="scale" dur="20s"
+                keyTimes="0;0.25;0.5;0.75;1"
+                values="45;55;75;55;45"
+                repeatCount="indefinite"
+              />
+            </feDisplacementMap>
+          </filter>
+        </defs>
+      </svg>
+    </div>
+    <div id="blinds">
+      <div class="shutters">
+        {Array.from({ length: SHUTTER_COUNT }, (_, i) => (
+          <div class="shutter"></div>
+        ))}
+      </div>
+      <div class="vertical">
+        {Array.from({ length: 2 }, (_, i) => (
+          <div class="bar"></div>
+        ))}
+      </div>
+    </div>
+  </div>
+  <div id="progressive-blur">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
+<style is:global>
+  #dappled-light {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  /* --- Glow layers --- */
+  #glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      309deg,
+      color-mix(in oklab, var(--theme-bounceLight) 20%, transparent),
+      transparent 60%
+    );
+    transition: background 1.5s ease;
+  }
+
+  [data-theme="vitesse-dark"] #glow {
+    background: linear-gradient(
+      309deg,
+      color-mix(in oklab, var(--theme-bounceLight) 50%, transparent),
+      transparent 60%
+    );
+  }
+
+  #glow-bounce {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      355deg,
+      color-mix(in oklab, var(--theme-bounceLight) 50%, transparent) 0%,
+      transparent 30%
+    );
+    transition: background 1.5s ease;
+  }
+
+  [data-theme="vitesse-dark"] #glow-bounce {
+    background: linear-gradient(
+      355deg,
+      color-mix(in oklab, var(--theme-bounceLight) 30%, transparent) 0%,
+      transparent 30%
+    );
+  }
+
+  /* --- Perspective scene --- */
+  .perspective {
+    position: absolute;
+    top: -30vh;
+    right: 0;
+    width: 80vw;
+    height: 130vh;
+    transform-origin: top right;
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    /* Day (light theme) */
+    transform: matrix3d(
+      0.7500, -0.0625, 0.0000, 0.0008,
+      0.0000,  1.0000, 0.0000, 0.0000,
+      0.0000,  0.0000, 1.0000, 0.0000,
+      0.0000,  0.0000, 0.0000, 1.0000
+    );
+    opacity: 0.07;
+    transition: transform 1.7s cubic-bezier(0.455, 0.190, 0.000, 0.985),
+                opacity 1.7s ease;
+  }
+
+  [data-theme="vitesse-dark"] .perspective {
+    opacity: 0.3;
+    transform: matrix3d(
+      0.8333,  0.0833, 0.0000, 0.0003,
+      0.0000,  1.0000, 0.0000, 0.0000,
+      0.0000,  0.0000, 1.0000, 0.0000,
+      0.0000,  0.0000, 0.0000, 1.0000
+    );
+  }
+
+  /* --- Leaves --- */
+  #leaves {
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    bottom: -20px;
+    right: -700px;
+    width: 1600px;
+    height: 1400px;
+    background-image: url(/leaves.png);
+    filter: url(#wind);
+    animation: billow 8s ease-in-out infinite;
+  }
+
+  /* --- Blinds --- */
+  #blinds {
+    position: relative;
+    width: 100%;
+  }
+
+  #blinds .shutter,
+  #blinds .bar {
+    background-color: var(--theme-shadow);
+  }
+
+  .shutters {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 60px;
+    transition: gap 1.5s cubic-bezier(0.455, 0.190, 0.000, 0.985);
+  }
+
+  [data-theme="vitesse-dark"] .shutters {
+    gap: 20px;
+  }
+
+  .vertical {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .bar {
+    width: 5px;
+    height: 100%;
+  }
+
+  .shutter {
+    width: 100%;
+    height: 40px;
+    transition: height 1.5s cubic-bezier(0.455, 0.190, 0.000, 0.985);
+  }
+
+  [data-theme="vitesse-dark"] .shutter {
+    height: 80px;
+  }
+
+  /* --- Progressive blur --- */
+  #progressive-blur {
+    position: absolute;
+    inset: 0;
+  }
+
+  #progressive-blur > div {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(var(--blur-amount));
+    -webkit-backdrop-filter: blur(var(--blur-amount));
+    mask-image: linear-gradient(
+      252deg,
+      transparent,
+      transparent var(--stop1),
+      black var(--stop2),
+      black
+    );
+    -webkit-mask-image: linear-gradient(
+      252deg,
+      transparent,
+      transparent var(--stop1),
+      black var(--stop2),
+      black
+    );
+    will-change: backdrop-filter;
+  }
+
+  #progressive-blur > div:nth-child(1) {
+    --blur-amount: 6px;
+    --stop1: 0%;
+    --stop2: 0%;
+  }
+
+  #progressive-blur > div:nth-child(2) {
+    --blur-amount: 12px;
+    --stop1: 40%;
+    --stop2: 80%;
+  }
+
+  #progressive-blur > div:nth-child(3) {
+    --blur-amount: 48px;
+    --stop1: 40%;
+    --stop2: 70%;
+  }
+
+  #progressive-blur > div:nth-child(4) {
+    --blur-amount: 96px;
+    --stop1: 70%;
+    --stop2: 80%;
+  }
+
+  /* --- Billow animation --- */
+  @keyframes billow {
+    0%   { transform: perspective(400px) rotateX(0deg)  rotateY(0deg)  scale(1);    }
+    25%  { transform: perspective(400px) rotateX(1deg)  rotateY(2deg)  scale(1.02); }
+    50%  { transform: perspective(400px) rotateX(-4deg) rotateY(-2deg) scale(0.97); }
+    75%  { transform: perspective(400px) rotateX(1deg)  rotateY(-1deg) scale(1.04); }
+    100% { transform: perspective(400px) rotateX(0deg)  rotateY(0deg)  scale(1);    }
+  }
+
+  /* --- Reduced motion --- */
+  @media (prefers-reduced-motion: reduce) {
+    #leaves {
+      animation: none;
+    }
+
+    .perspective {
+      transition: none;
+    }
+
+    #blinds .shutters,
+    #blinds .shutter,
+    #glow,
+    #glow-bounce {
+      transition: none;
+    }
+  }
+</style>

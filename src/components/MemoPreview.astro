@@ -3,6 +3,7 @@ import { dateString, tagSlug } from '~/utils'
 import ExternalLinkCard from '~/components/ExternalLinkCard.astro'
 import MusicCard from '~/components/MusicCard.astro'
 import MarkdownIt from 'markdown-it'
+import pangu from 'pangu'
 import { fetchMusicMetadata } from '~/music-metadata'
 import type { CollectionEntry } from 'astro:content'
 
@@ -83,7 +84,7 @@ const hasImages = segments.some((s) => s.type === 'images')
         {
           segments.map((seg) =>
             seg.type === 'text' ? (
-              <Fragment set:html={seg.html || ''} />
+              <Fragment set:html={pangu.spacingText(seg.html || '')} />
             ) : (
               <div
                 class:list={[

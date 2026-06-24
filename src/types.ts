@@ -76,6 +76,8 @@ export type AdmonitionType = 'tip' | 'note' | 'important' | 'caution' | 'warning
 export const themeKeys = [
   'foreground',
   'background',
+  'bounceLight',
+  'shadow',
   'accent',
   // Markdown styles
   'heading1',

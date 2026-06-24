@@ -60,6 +60,8 @@ const unresolvedStyles: TextmateStyles = {
   // VSCode Command: Inspect Editor Tokens And Scopes
   foreground: ['editor.foreground'],
   background: ['editor.background'],
+  bounceLight: [],
+  shadow: [],
   accent: [
     'heading.1.markdown entity.name',
     'heading.1.markdown',

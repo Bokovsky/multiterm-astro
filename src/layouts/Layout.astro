@@ -1,9 +1,9 @@
 ---
 import '~/styles/global.css'
+import DappledLight from '~/components/DappledLight.astro'
 import Header from '~/components/Header.astro'
 import Footer from '~/components/Footer.astro'
 import LightDarkAutoThemeLoader from '~/components/LightDarkAutoThemeLoader.astro'
-import SelectThemeLoader from '~/components/SelectThemeLoader.astro'
 import siteConfig from '~/site.config'
 import { pick, resolveThemeColorStyles } from '~/utils'
 import crypto from 'crypto'
@@ -137,6 +137,8 @@ for (const [themeId, themeStyles] of Object.entries(resolvedThemes)) {
   const relevantStyles = pick(themeStyles, [
     'foreground',
     'background',
+    'bounceLight',
+    'shadow',
     'accent',
     'heading1',
     'heading2',
@@ -230,17 +232,17 @@ let generatedCss: string = cssLines.join('\n')
     <style is:global define:vars={baseCssVars}></style>
     <style is:inline set:html={generatedCss}></style>
     {themeMode === 'light-dark-auto' && <LightDarkAutoThemeLoader />}
-    {themeMode === 'select' && <SelectThemeLoader />}
   </head>
   <body class="w-full h-full m-0 bg-background text-foreground">
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-background focus:rounded-xl"
     >
-      跳转到主要内容
+       跳转到主要内容
     </a>
+    <DappledLight />
     <div
-      class="flex flex-col max-w-3xl min-h-screen border-accent/10 m-auto p-3 sm:py-5 sm:px-6 md:py-10"
+      class="relative flex flex-col max-w-3xl min-h-screen border-accent/10 m-auto p-3 sm:py-5 sm:px-6 md:py-10" style="z-index:1"
     >
       <Header />
       <main id="main-content" class="flex flex-col py-1">

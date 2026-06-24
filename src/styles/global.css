@@ -61,6 +61,8 @@ header {
 }
 
 html {
+  /* Foundation background for backdrop-filter in DappledLight */
+  background-color: var(--theme-background);
   /* Slightly more accented scrollbar for better visibility */
   scrollbar-color: color-mix(in oklab, var(--theme-accent) 30%, transparent) transparent !important;
   /* Prevents layout from jumping when opening theme select or search dialog menus */
