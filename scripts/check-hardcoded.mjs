@@ -24,6 +24,10 @@ function loadThemeTokens() {
 }
 
 const allowedColors = loadThemeTokens()
+// Sunset/sunrise transition colors (intentional animation intermediates, not design tokens)
+for (const c of ['#fffdfa', '#fccc83', '#db7a2a', '#16132b', '#0f131c', '#9fb3bf']) {
+  allowedColors.add(c)
+}
 const cssVarColor = /var\(--theme-[\w-]+\)/
 
 // Files to skip (configs with documented examples, comments)

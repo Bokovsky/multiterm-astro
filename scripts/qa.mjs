@@ -2,7 +2,7 @@ import { execSync } from 'child_process'
 import { existsSync, readFileSync, readdirSync, statSync } from 'fs'
 import { join } from 'path'
 
-const DIST = 'dist'
+const DIST = '.vercel/output/static'
 
 const BLUE = '\x1b[34m'
 const GREEN = '\x1b[32m'
@@ -35,9 +35,9 @@ try {
   console.log(`  ${BLUE}⚠${RESET} TypeScript errors found (non-blocking)`)
 }
 
-// Step 3: Build (Astro + Pagefind — produces dist/)
-info('Build (Astro)')
-run('pnpm build')
+// Step 3: Build (Vercel build — produces .vercel/output/static/)
+info('Build (Vercel build)')
+run('npx vercel build --prod')
 pass('Build')
 
 // Step 4: Post-build checks
