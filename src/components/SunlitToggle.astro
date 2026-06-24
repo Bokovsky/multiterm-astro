@@ -31,8 +31,18 @@
       const html = document.documentElement
       const current = html.getAttribute('data-theme')
       const next = current === 'vitesse-dark' ? 'vitesse-light' : 'vitesse-dark'
+
+      const isDark = current === 'vitesse-dark'
+      const cls = isDark ? 'transition-sunrise' : 'transition-sunset'
+      document.body.classList.add(cls)
+
       html.setAttribute('data-theme', next)
       localStorage.setItem('data-theme', next)
+
+      const duration = isDark ? 1100 : 1800
+      setTimeout(() => {
+        document.body.classList.remove('transition-sunrise', 'transition-sunset')
+      }, duration)
     }
   }
 
