@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro'
 import Layout from '~/layouts/Layout.astro'
-import { SeriesGroup, TagsGroup, getSortedPosts } from '~/utils'
+import { SeriesGroup, TagsGroup, getSortedPosts } from '~/utils/collation'
 import PostPreview from '~/components/PostPreview.astro'
 import DividerText from '~/components/DividerText.astro'
 import { getCollection, render, type CollectionEntry } from 'astro:content'
@@ -14,7 +14,7 @@ import PostInfo from '~/components/PostInfo.astro'
 import ScrollUpButton from '~/components/ScrollUpButton.astro'
 import type { Collation } from '~/types'
 import ChevronsRight from '~/icons/chevrons-right.svg'
-import { getPostSequenceContext } from '~/utils'
+import { getPostSequenceContext } from '~/utils/collation'
 
 export const getStaticPaths = (async () => {
   const posts = await getSortedPosts()

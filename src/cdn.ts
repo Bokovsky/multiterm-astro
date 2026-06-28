@@ -28,4 +28,4 @@ export function resolveImageUrl(src: string): {
   return { url: src, isCdn: false }
 }
 
-export default cdnConfigs
+

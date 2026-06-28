@@ -13,7 +13,7 @@ const SRC = 'src'
 // Read theme tokens from the source of truth
 function loadThemeTokens() {
   const tokens = new Set()
-  const utilsRaw = readFileSync(`${SRC}/utils.ts`, 'utf-8')
+  const utilsRaw = readFileSync(`${SRC}/utils/theme.ts`, 'utf-8')
   // Extract all hex colors used in theme resolution
   const hexRegex = /#[0-9a-fA-F]{6,8}/g
   let m

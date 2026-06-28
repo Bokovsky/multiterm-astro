@@ -3,7 +3,7 @@ import type { GetStaticPaths } from 'astro'
 import Layout from '~/layouts/Layout.astro'
 import MemoPreview from '~/components/MemoPreview.astro'
 import Pagination from '~/components/Pagination.astro'
-import { getSortedMemos } from '~/utils'
+import { getSortedMemos } from '~/utils/collation'
 import type { CollectionEntry } from 'astro:content'
 
 export const getStaticPaths = (async ({ paginate }) => {

@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss'
 import siteConfig from '~/site.config'
 import type { AstroGlobal } from 'astro'
-import { getSortedPosts } from '~/utils'
+import { getSortedPosts } from '~/utils/collation'
 import sanitizeHtml from 'sanitize-html'
 import MarkdownIt from 'markdown-it'
 const parser = new MarkdownIt()

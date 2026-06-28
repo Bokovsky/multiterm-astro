@@ -5,7 +5,8 @@ import Header from '~/components/Header.astro'
 import Footer from '~/components/Footer.astro'
 import LightDarkAutoThemeLoader from '~/components/LightDarkAutoThemeLoader.astro'
 import siteConfig from '~/site.config'
-import { pick, resolveThemeColorStyles } from '~/utils'
+import { resolveThemeColorStyles } from '~/utils/theme'
+import { buildWebsiteSchema, buildArticleSchema, generateThemeCss } from '~/utils/layout'
 import crypto from 'crypto'
 import pangu from 'pangu'
 import Analytics from '@vercel/analytics/astro'
@@ -48,52 +49,22 @@ const baseCssVars: { [key: string]: string } = {
   'ec-brdCol': 'color-mix(in srgb, var(--theme-foreground), 10%, transparent)',
 }
 
-// Generate JSON-LD structured data
-const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: siteConfig.title,
-  description: siteConfig.description,
-  url: Astro.site?.toString() || '',
-  author: {
-    '@type': 'Person',
-    name: siteConfig.author,
-  },
-}
-
-let articleSchema = null
-if (pageType === 'article') {
-  articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: title || '',
-    description: pageDescription,
-    url: pageUrl,
-    ...(publishedDate && { datePublished: publishedDate.toISOString() }),
-    ...(modifiedDate && { dateModified: modifiedDate.toISOString() }),
-    ...(publishedDate && !modifiedDate && { dateModified: publishedDate.toISOString() }),
-    author: {
-      '@type': 'Person',
-      name: pageAuthor,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: siteConfig.title,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${Astro.url.origin}/favicon.svg`,
-      },
-    },
-    image: pageImage,
-    keywords: tags?.join(', ') || '',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': pageUrl,
-    },
-  }
-}
-
-const jsonLd = pageType === 'article' && articleSchema ? articleSchema : websiteSchema
+const websiteSchema = buildWebsiteSchema(siteConfig, Astro.site?.toString() || '')
+const articleSchema = pageType === 'article'
+  ? buildArticleSchema({
+      title: title || '',
+      description: pageDescription,
+      pageUrl,
+      pageImage,
+      publishedDate,
+      modifiedDate,
+      author: pageAuthor,
+      tags: tags || [],
+      siteTitle: siteConfig.title,
+      siteUrl: `${Astro.url.origin}`,
+    })
+  : null
+const jsonLd = articleSchema || websiteSchema
 
 let themeMode = siteConfig.themes.mode
 if (siteConfig.themes.include.length < 1) {
@@ -131,44 +102,7 @@ const resolvedThemes = await resolveThemeColorStyles(
   siteConfig.themes.include,
   siteConfig.themes.overrides,
 )
-
-let cssLines: string[] = []
-for (const [themeId, themeStyles] of Object.entries(resolvedThemes)) {
-  const relevantStyles = pick(themeStyles, [
-    'foreground',
-    'background',
-    'bounceLight',
-    'shadow',
-    'accent',
-    'heading1',
-    'heading2',
-    'heading3',
-    'heading4',
-    'heading5',
-    'heading6',
-    'list',
-    'italic',
-    'link',
-    'separator',
-    'note',
-    'tip',
-    'important',
-    'caution',
-    'warning',
-    'blue',
-    'green',
-    'red',
-    'yellow',
-    'magenta',
-    'cyan',
-  ])
-  cssLines.push(`:root[data-theme="${themeId}"] {`)
-  for (const [key, value] of Object.entries(relevantStyles)) {
-    cssLines.push(`--theme-${key}: ${value};`)
-  }
-  cssLines.push(`}`)
-}
-let generatedCss: string = cssLines.join('\n')
+const generatedCss = generateThemeCss(resolvedThemes)
 ---
 
 <!doctype html>
