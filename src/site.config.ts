@@ -6,7 +6,7 @@ const config: SiteConfig = {
   description: '不定期更新的博客，分享技术学习和生活随笔',
   author: 'EDTA',
   tags: ['macondo.cc', 'EDTA', 'Blog', 'Astro', 'macondo'],
-  socialCardAvatarImage: './src/content/avatar.jpg',
+  socialCardAvatarImage: './src/content/avatar.svg',
   // Font imported from @fontsource or elsewhere, used for the entire site.
   // To change this see src/styles/global.css and import a different font.
   font: 'JetBrains Mono Variable',

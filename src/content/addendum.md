@@ -1,6 +1,6 @@
 ---
 avatarImage:
-  src: './avatar.jpg'
+  src: './avatar.svg'
   alt: 'My avatar'
 ---
 
